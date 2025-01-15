@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\97252\\OneDrive\\Essentials\\GitHub\\BeavermaniaRemastered\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{78A26D96-62E2-2D1B-203C-8F3402DEC031}|Assembly-CSharp.csproj|c:\\users\\97252\\onedrive\\essentials\\github\\beavermaniaremastered\\assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78A26D96-62E2-2D1B-203C-8F3402DEC031}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78A26D96-62E2-2D1B-203C-8F3402DEC031}|Assembly-CSharp.csproj|C:\\Users\\97252\\OneDrive\\Essentials\\GitHub\\BeavermaniaRemastered\\assets\\scripts\\core\\inputreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78A26D96-62E2-2D1B-203C-8F3402DEC031}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\core\\inputreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PlayerController.cs",
+              "DocumentMoniker": "C:\\Users\\97252\\OneDrive\\Essentials\\GitHub\\BeavermaniaRemastered\\Assets\\Scripts\\Player\\PlayerController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerController.cs",
+              "ToolTip": "C:\\Users\\97252\\OneDrive\\Essentials\\GitHub\\BeavermaniaRemastered\\Assets\\Scripts\\Player\\PlayerController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerController.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAD4vzAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-13T10:03:56.898Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "InputReader.cs",
+              "DocumentMoniker": "C:\\Users\\97252\\OneDrive\\Essentials\\GitHub\\BeavermaniaRemastered\\Assets\\Scripts\\Core\\InputReader.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Core\\InputReader.cs",
+              "ToolTip": "C:\\Users\\97252\\OneDrive\\Essentials\\GitHub\\BeavermaniaRemastered\\Assets\\Scripts\\Core\\InputReader.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Core\\InputReader.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwB8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-13T10:04:16.899Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
