@@ -9,12 +9,14 @@ namespace Beavermania.Player
         [Header("References")]
         [SerializeField] private InputReader input;
         [SerializeField] private CharacterController characterController;
+        [SerializeField] Animator _animatior;
 
         [Header("Movement Settings")]
         [SerializeField] private float speed = 5f;
         [SerializeField] private float sprintMultiplier = 1.5f;
-        private bool isSprint = false;
         [SerializeField] private float rotationSpeed = 0.3f;
+        private bool isSprint = false;
+        private float currentSpeed;
 
         [Header("Jump Settings")]
         [SerializeField] private float jumpForce = 8f;
@@ -29,6 +31,10 @@ namespace Beavermania.Player
         private float _lastGroundedTime;
         private float _lastJumpTime;
         private Transform _mainCameraTransform;
+
+        // Add these cached values at class level
+        private static readonly Vector3 ZeroVector = Vector3.zero;
+        private static readonly Vector3 VerticalOffset = new Vector3(0, -2f, 0);
 
         private void Start()
         {
@@ -55,11 +61,32 @@ namespace Beavermania.Player
             input.SprintEvent -= HandleSprint;
         }
 
+        private void HandleAnimations()
+        {
+            // Check if there is movement input
+            if (_moveDirection == Vector2.zero)
+            {
+                currentSpeed = 0; // Reset current speed if no input
+                _animatior.SetFloat("Move", currentSpeed); // Reset animator float to 0
+            }
+            else
+            {
+                // Calculate current speed based on whether the player is sprinting or walking
+                currentSpeed = isSprint ? speed * sprintMultiplier : speed; // Adjust speed based on sprinting
+                _animatior.SetFloat("Move", currentSpeed); // Update animator float
+            }
+
+            // Update other animation parameters
+            _animatior.SetFloat("Yvelocity", _velocity.y);
+            _animatior.SetBool("Jump", !characterController.isGrounded);
+        }
+
         private void Update()
         {
             UpdateTimers();
             ApplyGravity();
             HandleMovement();
+            HandleAnimations();
         }
 
         private void UpdateTimers()
@@ -88,38 +115,36 @@ namespace Beavermania.Player
             }
 
             _velocity.y += gravity * gravityMultiplier * fallMultiplier * Time.deltaTime;
-            // Only apply vertical movement here
-            characterController.Move(new Vector3(0, _velocity.y * Time.deltaTime, 0));
+            characterController.Move(Vector3.up * (_velocity.y * Time.deltaTime));
         }
 
         private void HandleMovement()
         {
             if (_moveDirection == Vector2.zero) return;
 
-            // Get camera forward direction
+            // Get camera forward direction - optimize by doing this calculation only when needed
             Vector3 camForward = _mainCameraTransform.forward;
             camForward.y = 0;
-            _camDirection = Quaternion.LookRotation(camForward);
+            camForward.Normalize(); // Normalize the forward vector for consistent movement
 
-            // Calculate movement
-            Vector3 inputVector = new Vector3(_moveDirection.x, 0, _moveDirection.y);
-            Vector3 moveDirection = _camDirection * inputVector;
-            moveDirection.y = _velocity.y; // Preserve vertical velocity for jumps
+            // Calculate movement in relation to the camera's forward vector
+            Vector3 moveDirection = camForward * _moveDirection.y + _mainCameraTransform.right * _moveDirection.x;
+            moveDirection.y = _velocity.y;
 
-            // Apply rotation
-            if (new Vector3(moveDirection.x, 0, moveDirection.z) != Vector3.zero)
+            // Only calculate rotation if actually moving
+            Vector3 horizontalMove = new Vector3(moveDirection.x, 0, moveDirection.z);
+            if (horizontalMove != ZeroVector)
             {
                 float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
-                Quaternion rotGoal = Quaternion.Euler(0, targetAngle, 0);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotGoal, rotationSpeed);
+                transform.rotation = Quaternion.Slerp(transform.rotation, 
+                                                    Quaternion.Euler(0, targetAngle, 0), 
+                                                    rotationSpeed);
             }
             
-            // Apply horizontal movement
-            float currentSpeed = isSprint ? speed * sprintMultiplier : speed;
-            Vector3 horizontalMove = new Vector3(moveDirection.x, 0, moveDirection.z) * (currentSpeed * Time.deltaTime);
-            Vector3 verticalMove = new Vector3(0, moveDirection.y * Time.deltaTime, 0);
-            
-            characterController.Move(horizontalMove + verticalMove);
+            // Optimize movement calculation
+            currentSpeed = isSprint ? speed * sprintMultiplier : speed;
+            horizontalMove = Vector3.Scale(horizontalMove.normalized, new Vector3(currentSpeed, 0, currentSpeed)) * Time.deltaTime;
+            characterController.Move(horizontalMove + Vector3.up * (moveDirection.y * Time.deltaTime));
         }
 
         private void HandleMove(Vector2 dir) => _moveDirection = dir;
